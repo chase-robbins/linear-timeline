@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { Team, TeamsQueryResponse, TeamTimelineQueryResponse, IssueState } from '../types/linear';
+import type { Team, TeamsQueryResponse, IssueState } from '../types/linear';
 
 interface HistoryEntry {
   id: string;
@@ -211,18 +211,20 @@ export function useLinearApi(apiKey: string): UseLinearApiReturn {
       let cursor: string | null = null;
       let hasMore = true;
 
+      interface UserIssuesResponse {
+        data: {
+          user: {
+            assignedIssues: {
+              pageInfo: { hasNextPage: boolean; endCursor: string | null };
+              nodes: RawIssue[];
+            };
+          };
+        };
+      }
+
       while (hasMore) {
         try {
-          const result = await executeQuery<{
-            data: {
-              user: {
-                assignedIssues: {
-                  pageInfo: { hasNextPage: boolean; endCursor: string | null };
-                  nodes: RawIssue[];
-                };
-              };
-            };
-          }>(USER_ISSUES_QUERY, {
+          const result: UserIssuesResponse = await executeQuery<UserIssuesResponse>(USER_ISSUES_QUERY, {
             userId,
             teamIdFilter: teamId,
             startedAfter: startedAfter.toISOString(),

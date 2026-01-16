@@ -27,7 +27,7 @@ function App() {
 
     // Collect all issue IDs
     const allIssues: { memberId: string; issueIndex: number; issueId: string }[] = [];
-    team.members.nodes.forEach((member, memberIndex) => {
+    team.members.nodes.forEach((member) => {
       member.assignedIssues.nodes.forEach((issue, issueIndex) => {
         allIssues.push({
           memberId: member.id,

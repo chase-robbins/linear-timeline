@@ -124,7 +124,7 @@ export const calculateStatusSegments = (
   history: HistoryEntryInput[],
   currentStateId: string,
   currentStatus: string,
-  issueCreatedAt: string,
+  _issueCreatedAt: string,
   issueStart: Date,
   issueEnd: Date
 ): StatusSegment[] => {
